@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart' as validator;
-import 'model.dart';
-import 'result.dart';
+import 'UserModel.dart';
 
 class CreateUser extends StatelessWidget {
   @override
@@ -24,7 +23,7 @@ class TestForm extends StatefulWidget {
 
 class _TestFormState extends State<TestForm> {
   final _formKey = GlobalKey<FormState>();
-  Model model = Model();
+  // UserModel model = UserModel();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class _TestFormState extends State<TestForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  model.name = value;
+                  // model.name = value;
                 },
               ),
               MyTextFormField(
@@ -57,7 +56,7 @@ class _TestFormState extends State<TestForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  model.userName = value;
+                  // model.username = value;
                 },
               ),
               MyTextFormField(
@@ -69,7 +68,7 @@ class _TestFormState extends State<TestForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  model.email = value;
+                  // model.mail = value;
                 },
               ),
               MyTextFormField(
@@ -81,7 +80,7 @@ class _TestFormState extends State<TestForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  model.phone = value;
+                  // model.phone = value;
                 },
               ),
               MyTextFormField(
@@ -93,43 +92,43 @@ class _TestFormState extends State<TestForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  model.address = value;
+                  // model.address = value;
                 },
               ),
 
-              MyTextFormField(
-                hintText: 'Password',
-                isPassword: true,
-                validator: (String value) {
-                  if (value.length < 7) {
-                    return 'A senha deve ter no mínimo 6 caracteres.';
-                  }
+              // MyTextFormField(
+              //   hintText: 'Password',
+              //   isPassword: true,
+              //   validator: (String value) {
+              //     if (value.length < 7) {
+              //       return 'A senha deve ter no mínimo 6 caracteres.';
+              //     }
 
-                  _formKey.currentState.save();
+              //     _formKey.currentState.save();
 
-                  return null;
-                },
-                onSaved: (String value) {
-                  model.password = value;
-                },
-              ),
+              //     return null;
+              //   },
+              //   onSaved: (String value) {
+              //     model.password = value;
+              //   },
+              // ),
 
-              MyTextFormField(
-                hintText: 'Confirm Password',
-                isPassword: true,
-                validator: (String value) {
-                  if (value.length < 7) {
-                    return 'A senha deve ter no mínimo 6 caracteres.';
-                  } else if (model.password != null &&
-                      value != model.password) {
-                    print(value);
-                    print(model.password);
-                    return 'Senhas não se correspondem';
-                  }
+              // MyTextFormField(
+              //   hintText: 'Confirm Password',
+              //   isPassword: true,
+              //   validator: (String value) {
+              //     if (value.length < 7) {
+              //       return 'A senha deve ter no mínimo 6 caracteres.';
+              //     } else if (model.password != null &&
+              //         value != model.password) {
+              //       print(value);
+              //       print(model.password);
+              //       return 'Senhas não se correspondem';
+              //     }
 
-                  return null;
-                },
-              ),
+              //     return null;
+              //   },
+              // ),
               // Container(
               //   alignment: Alignment.topCenter,
               //   child: Row(
@@ -172,16 +171,16 @@ class _TestFormState extends State<TestForm> {
               // ),
               RaisedButton(
                 color: Colors.blueAccent,
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
+                // onPressed: () {
+                //   if (_formKey.currentState.validate()) {
+                //     _formKey.currentState.save();
 
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Result(model: this.model)));
-                  }
-                },
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => Result(model: this.model)));
+                //   }
+                // },
                 child: Text(
                   'Cadastrar',
                   style: TextStyle(
