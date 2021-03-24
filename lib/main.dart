@@ -1,31 +1,136 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/DioService.dart';
+// import 'package:http/http.dart' as http;
 import 'package:validators/validators.dart' as validator;
-import 'model.dart';
-import 'result.dart';
-import 'create_category.dart';
+import 'dart:convert';
+import 'UserModel.dart';
+import 'CreateUser.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Home'),
-        ),
-        body: SingleChildScrollView(child: TestForm()),
-      ),
-    );
+    return new MaterialApp(home: new HomeScreen());
   }
 }
 
-class TestForm extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
+  final DioServer _dioServer = DioServer();
   @override
-  _TestFormState createState() => _TestFormState();
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text('Home'),
+        ),
+        body: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      color: Colors.blueAccent,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateUser()));
+                      },
+                      child: Text(
+                        '+ Novo Usuário',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  child: FutureBuilder(
+                      future: _dioServer.getUsers(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<UserModel> user = snapshot.data;
+                          return Expanded(
+                              child: ListView(
+                            children: user
+                                .map((UserModel user) => Card(
+                                      child: ListTile(
+                                        trailing: Icon(Icons.account_box),
+                                        title: Text("Nome: " + user.name),
+                                        subtitle: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text("E-mail: " + user.mail),
+                                            Text("Telefone: " + user.phone),
+                                            Text("Nome de usuário: " +
+                                                user.username),
+                                            Text("Endereço: " + user.address),
+                                          ],
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                          ));
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                ),
+              ],
+            )));
+  }
 }
 
-class _TestFormState extends State<TestForm> {
+class ListUser extends StatefulWidget {
+  @override
+  _ListUserState createState() => _ListUserState();
+}
+
+class _ListUserState extends State<ListUser> {
+  // var users = new List<UserModel>();
+
+  // Future<UserModel> fetchUsers() async {
+  //   final response =
+  //       await http.get(Uri.http('localhost:8080', '/Stock-Management/'));
+
+  //   if (response.statusCode == 200) {
+  //     // return UserModel.fromJson(jsonDecode(response.body));
+  //     print(response.body);
+  //   } else {
+  //     throw Exception('Failed to load User');
+  //   }
+  // }
+  // Dio dio = new Dio();
+
+  // Future<List<UserModel>> getUsers() async {
+  //   try {
+  //     var response =
+  //         await dio.get("http://192.168.1.108:8080/Stock-Management/users?q=");
+  //     // print(response.data.toString());
+  //     final jsonMap = jsonDecode(response.data); //passando json para string
+  //     print(jsonMap);
+  //     // setState(() {
+  //     //   users =
+  //     //       (jsonMap as List).map((item) => UserModel.fromJson(item)).toList();
+  //     // }); //setstate users
+
+  //     users =
+  //         (jsonMap as List).map((item) => UserModel.fromJson(item)).toList();
+  //     return users; //retornando lista de usuários
+  //   } on DioError catch (e) {
+  //     throw (e.message);
+  //   }
+  // }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
